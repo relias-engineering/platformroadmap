@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform Modernization Roadmap: Cohort 1 : 4</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f9f9f7;color:#1a1a1a;padding:2rem}
+.card{background:#fff;border-radius:12px;border:0.5px solid #e0e0d8;overflow:hidden;max-width:1100px;margin:0 auto}
+.header{padding:1.5rem 1.75rem 1rem;border-bottom:0.5px solid #e8e8e0}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:1rem}
+.title{font-size:16px;font-weight:600;color:#111}
+.subtitle{font-size:12px;color:#888;margin-top:3px}
+.filter-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.filter-label{font-size:11px;color:#aaa;white-space:nowrap;min-width:60px}
+.filter-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:0.5px solid #d0d0c8;background:transparent;color:#666;cursor:pointer;transition:all 0.15s}
+.filter-btn:hover{background:#f0f0ea;color:#333}
+.filter-btn.active{background:#e8f0fb;color:#1a5fb4;border-color:#b0c8f0}
+.init-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid #d0d0c8;background:transparent;color:#666;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px}
+.init-btn:hover{background:#f0f0ea;color:#333}
+.init-btn .dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.init-btn.active{border-color:#999;color:#111;background:#f0f0ea}
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:0.65rem 1.75rem;border-bottom:0.5px solid #e8e8e0;background:#fafaf8}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#666}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.grid-wrap{overflow-x:visible;padding-bottom:1.5rem}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+.col-team{width:130px}
+th{font-size:10px;font-weight:500;color:#888;text-align:left;padding:6px 6px;border-bottom:0.5px solid #e8e8e0;white-space:nowrap;background:#fafaf8}
+th.year-header{text-align:center;font-size:11px;font-weight:600;color:#333;padding:8px 6px;border-bottom:0.5px solid #e8e8e0;background:#fafaf8}
+.team-cell{font-size:11px;font-weight:500;color:#222;padding:5px 6px 5px 1.5rem;vertical-align:middle;white-space:nowrap;border-bottom:0.5px solid #f0f0ea;transition:opacity 0.2s}
+.group-label-row td{padding:12px 6px 4px 1.5rem;font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.07em;border-bottom:none;background:#fafaf8}
+.bar-cell{padding:3px 3px;vertical-align:middle;border-bottom:0.5px solid #f0f0ea}
+.bar{border-radius:4px;padding:3px 7px;font-size:10px;font-weight:500;white-space:normal;word-break:break-word;overflow:visible;display:block;cursor:default;line-height:1.4;transition:opacity 0.2s,outline 0.15s}
+.bar:hover{opacity:0.8}
+.empty-bar{height:24px}
+.b-orange{background:#FAEEDA;color:#633806}
+.b-teal{background:#E1F5EE;color:#085041}
+.b-blue{background:#E6F1FB;color:#0C447C}
+.b-purple{background:#EEEDFE;color:#3C3489}
+.b-coral{background:#FAECE7;color:#712B13}
+.b-green{background:#EAF3DE;color:#27500A}
+.b-pink{background:#FBEAF0;color:#72243E}
+.b-yellow{background:#FAF0C0;color:#5a4500}
+.dimmed{opacity:0.1!important}
+.highlighted{outline:2px solid currentColor;outline-offset:1px;opacity:1!important}
+.tooltip{position:fixed;background:#fff;border:0.5px solid #d0d0c8;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.08);padding:5px 10px;font-size:11px;color:#333;pointer-events:none;display:none;z-index:999;max-width:240px;line-height:1.5}
+.count-info td{padding:8px 1.5rem;font-size:11px;color:#888;border-top:0.5px solid #e8e8e0}
+.footer{padding:0.75rem 1.75rem;border-top:0.5px solid #e8e8e0;font-size:10px;color:#bbb;background:#fafaf8;text-align:right}
+.cohort-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid #d0d0c8;background:transparent;color:#666;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px}
+.cohort-btn:hover{background:#f0f0ea;color:#333}
+.cohort-btn.active{border-color:#999;color:#111;background:#f0f0ea}
+.co-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block}
+.co1{background:#c8b8f0}.co2{background:#f5c842}.co3{background:#5bc8a0}.co4{background:#5aaae8}
+.co-badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:4px;vertical-align:middle;line-height:1.4;letter-spacing:0.02em}
+.co-badge-1{background:#c8b8f0;color:#2e1a6e}
+.co-badge-2{background:#f5c842;color:#5a3a00}
+.co-badge-3{background:#5bc8a0;color:#034a30}
+.co-badge-4{background:#5aaae8;color:#042c5a}
+
+@media (prefers-color-scheme: dark) {
+  body{background:#1a1a18;color:#e8e8e0}
+  .card{background:#242422;border-color:#3a3a36}
+  .header{border-color:#3a3a36}
+  .title{color:#f0f0e8}
+  .subtitle{color:#777}
+  .filter-btn{border-color:#3a3a36;color:#999}
+  .filter-btn:hover{background:#2e2e2c;color:#ccc}
+  .filter-btn.active{background:#1a2a3a;color:#7baee0;border-color:#3a5a80}
+  .init-btn{border-color:#3a3a36;color:#999}
+  .init-btn:hover{background:#2e2e2c;color:#ccc}
+  .init-btn.active{border-color:#666;color:#e0e0d8;background:#2e2e2c}
+  .legend{background:#1e1e1c;border-color:#3a3a36}
+  .legend-item{color:#888}
+  th{background:#1e1e1c;color:#777;border-color:#3a3a36}
+  th.year-header{background:#1e1e1c;color:#bbb}
+  .team-cell{color:#d0d0c8;border-color:#2e2e2c}
+  .group-label-row td{color:#666;background:#1e1e1c}
+  .bar-cell{border-color:#2e2e2c}
+  .b-orange{background:#412402;color:#FAC775}
+  .b-teal{background:#04342C;color:#5DCAA5}
+  .b-blue{background:#042C53;color:#85B7EB}
+  .b-purple{background:#26215C;color:#AFA9EC}
+  .b-coral{background:#4A1B0C;color:#F0997B}
+  .b-green{background:#173404;color:#97C459}
+  .b-pink{background:#4B1528;color:#ED93B1}
+  .b-yellow{background:#3a2e00;color:#f0d060}
+  .tooltip{background:#2a2a28;border-color:#4a4a44;color:#e0e0d8}
+  .count-info td{color:#777;border-color:#3a3a36}
+  .footer{background:#1e1e1c;border-color:#3a3a36;color:#555}
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="title">Platform Modernization Roadmap: Cohort 1 : 4</div>
+        <div class="subtitle">Q2 2026 — Q4 2027 &nbsp;·&nbsp; all teams</div>
+      </div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Teams:</span>
+      <button class="filter-btn active" onclick="filterGroup('all',this)">All</button>
+      <button class="filter-btn" onclick="filterGroup('hcm',this)">HCM teams</button>
+      <button class="filter-btn" onclick="filterGroup('grc',this)">GRC teams</button>
+      <button class="filter-btn" onclick="filterGroup('shared',this)">Shared services</button>
+    </div>
+    <div class="filter-row" id="init-row">
+      <span class="filter-label">Initiative:</span>
+      <button class="init-btn active" onclick="filterInit('all',this)">All initiatives</button>
+    </div>
+    <div class="filter-row" id="cohort-row">
+      <span class="filter-label">Cohort:</span>
+      <button class="cohort-btn active" onclick="filterCohort(0,this)">All cohorts</button>
+      <button class="cohort-btn" onclick="filterCohort(1,this)"><span class="co-dot co1"></span>Cohort 1</button>
+      <button class="cohort-btn" onclick="filterCohort(2,this)"><span class="co-dot co2"></span>Cohort 2</button>
+      <button class="cohort-btn" onclick="filterCohort(3,this)"><span class="co-dot co3"></span>Cohort 3</button>
+      <button class="cohort-btn" onclick="filterCohort(4,this)"><span class="co-dot co4"></span>Cohort 4</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot b-orange"></div>Accredited content</div>
+    <div class="legend-item"><div class="legend-dot b-teal"></div>Competency Benchmark</div>
+    <div class="legend-item"><div class="legend-dot b-blue"></div>Courses</div>
+    <div class="legend-item"><div class="legend-dot b-coral"></div>Live events</div>
+    <div class="legend-item"><div class="legend-dot b-purple"></div>TestOut : custom courses</div>
+    <div class="legend-item"><div class="legend-dot b-green"></div>Other initiatives</div>
+    <div class="legend-item"><div class="legend-dot b-green" style="background:#c8e8c0"></div>GRC integration</div>
+    <div class="legend-item"><div class="legend-dot b-pink"></div>Reporting</div>
+    <div class="legend-item"><div class="legend-dot b-yellow"></div>Connected orgs</div>
+  </div>
+
+  <div class="grid-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-team"></th>
+          <th class="year-header" colspan="3">2026</th>
+          <th class="year-header" colspan="4">2027</th>
+        </tr>
+        <tr>
+          <th class="col-team"></th>
+          <th>Q2</th><th>Q3</th><th>Q4</th>
+          <th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th>
+        </tr>
+      </thead>
+      <tbody id="roadmap-body"></tbody>
+    </table>
+  </div>
+
+  <div class="footer">Generated for executive review &nbsp;·&nbsp; click an initiative to highlight across teams</div>
+</div>
+
+<div class="tooltip" id="tip"></div>
+
+<script>
+// co = cohort: 1,2,3,4 or 0 for none
+const rows=[
+  {group:'hcm',name:'ByteKnights',cells:[
+    {c:'b-orange',i:'accredited',co:2,l:'Accredited content'},{c:'b-orange',i:'accredited',co:2,l:'Accredited content'},{c:'b-orange',i:'accredited',co:3,l:'Accredited content : cohort 3'},
+    {c:'b-orange',i:'accredited',co:3,l:'Accredited content : cohort 3'},{c:'b-orange',i:'accredited',co:4,l:'Accredited content : cohort 4'},{c:'b-orange',i:'accredited',co:4,l:'Accredited content : cohort 4'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'HG-Titans',cells:[
+    {c:'b-orange',i:'accredited',co:2,l:'Accredited content'},{c:'b-orange',i:'accredited',co:2,l:'Accredited content'},{c:'b-orange',i:'accredited',co:3,l:'Accredited content : cohort 3'},
+    {c:'b-orange',i:'accredited',co:3,l:'Accredited content : cohort 3'},{c:'b-orange',i:'accredited',co:4,l:'Accredited content : cohort 4'},{c:'b-orange',i:'accredited',co:4,l:'Accredited content : cohort 4'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'WizarDry',cells:[
+    {c:'b-orange',i:'accredited',co:2,l:'Accredited content'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Foundations'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Foundations'},
+    {c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Assessments'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Assessments'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Assessments'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'SnackOverflow',cells:[
+    {c:'b-orange',i:'accredited',co:2,l:'Accredited content'},{c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},
+    {c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Assessments'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Assessments'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'HG-Avengers',cells:[
+    {c:'b-blue',i:'courses',co:2,l:'POTG'},{c:'b-blue',i:'courses',co:3,l:'Addtnl lesson formats'},{c:'b-blue',i:'courses',co:3,l:'Limit exam attempts'},
+    {c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Assessments'},{c:'b-green',i:'other',co:4,l:'Library solutions'},{c:'b-green',i:'other',co:4,l:'Brainsparks'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'HG-NeoForce',cells:[
+    {c:'b-green',i:'other',co:2,l:'Self enrollment'},{c:'b-orange',i:'accredited',co:3,l:'Accredited content'},{c:'b-blue',i:'courses',co:3,l:'TestOut : custom courses'},
+    {c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Comp Eval'},{c:'b-blue',i:'courses',co:4,l:'Courses : cohort 4'},{c:'b-blue',i:'courses',co:4,l:'Courses : cohort 4'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'DividedByZero',cells:[
+    {c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},
+    {c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-green',i:'other',co:4,l:'Library solutions'},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'HG-PowerRangers',cells:[
+    {c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},
+    {c:'b-teal',i:'competency',co:3,l:'Comptency Benchmark: Skills CheckList'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Comp Eval'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Comp Eval'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'HG-NovaGuard',cells:[
+    {c:'b-blue',i:'courses',co:2,l:'Proficiency check'},{c:'b-blue',i:'courses',co:3,l:'Quizzes'},{c:'b-blue',i:'courses',co:3,l:'Addtnl lesson formats'},
+    {c:'b-blue',i:'courses',co:4,l:'Courses : cohort 4'},{c:'b-blue',i:'courses',co:4,l:'Courses : cohort 4'},{c:'b-blue',i:'courses',co:4,l:'Courses : cohort 4'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'hcm',name:'ColdFix',cells:[
+    {c:'b-blue',i:'courses',co:2,l:'POTG'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Foundations'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Foundations'},
+    {c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Comp Eval'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Comp Eval'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: Comp Eval'},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'grc',name:'MagicFork',cells:[
+    {c:'b-coral',i:'liveevents',co:3,l:'Live events'},{c:'b-coral',i:'liveevents',co:3,l:'Live events'},{c:'b-coral',i:'liveevents',co:3,l:'Live events'},
+    {c:'b-coral',i:'liveevents',co:3,l:'Live events'},{c:'b-coral',i:'liveevents',co:4,l:'Live events : cohort 4'},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'grc',name:'Magic Strings',cells:[
+    {c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'',i:'',co:0,l:''},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'grc',name:'Globally Scoped',cells:[
+    {c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'',i:'',co:0,l:''},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'grc',name:'Shipit',cells:[
+    {c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'',i:'',co:0,l:''},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'grc',name:'WOMMED',cells:[
+    {c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'b-green',i:'grcintegration',co:2,l:'GRC integration'},{c:'',i:'',co:0,l:''},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'GitHappens',cells:[
+    {c:'b-yellow',i:'connected',co:3,l:'Connected orgs'},{c:'b-yellow',i:'connected',co:3,l:'Connected orgs'},{c:'b-yellow',i:'connected',co:3,l:'Gating content access'},
+    {c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: org setting'},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'Deploy&Conquer',cells:[
+    {c:'b-pink',i:'reporting',co:1,l:'Reporting'},{c:'b-pink',i:'reporting',co:2,l:'GRC Reporting & content metadata reporting'},{c:'b-green',i:'other',co:3,l:'Content plan: equivalent content'},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'ScrumbleBeez',cells:[
+    {c:'b-green',i:'other',co:1,l:'Shared content plans'},{c:'b-green',i:'other',co:2,l:'Self enrollment & GRC integration support'},{c:'b-green',i:'other',co:3,l:'Content plans: subportal'},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'BytesOfSunshine',cells:[
+    {c:'b-green',i:'other',co:2,l:'Reporting structure'},{c:'b-green',i:'other',co:3,l:'User consolidation'},{c:'b-green',i:'other',co:3,l:'User consolidation'},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'HG-Gladiators',cells:[
+    {c:'b-green',i:'other',co:1,l:'Admin: PBL'},{c:'b-green',i:'other',co:2,l:'PBL'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: dashboard'},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'HG-Guardians',cells:[
+    {c:'b-green',i:'other',co:1,l:'Direct assignment'},{c:'b-green',i:'other',co:2,l:'Technical foundations'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: user mgmt'},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'HG-Spartans',cells:[
+    {c:'b-green',i:'other',co:2,l:'Reporting structure'},{c:'b-green',i:'other',co:2,l:'Track external requirements'},{c:'b-teal',i:'competency',co:4,l:'Competency Benchmark: notifications'},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+  {group:'shared',name:'MobileMonsters',cells:[
+    {c:'b-green',i:'other',co:2,l:'Learner app'},{c:'b-green',i:'other',co:2,l:'Learner app'},{c:'',i:'',co:0,l:''},
+    {c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''},{c:'',i:'',co:0,l:''}
+  ]},
+];
+
+const groupLabels={hcm:'HCM Teams',grc:'GRC Teams',shared:'Shared Services Teams'};
+
+const initiatives=[
+  {id:'accredited',label:'Accredited content',bg:'#FAEEDA'},
+  {id:'competency',label:'Competency Benchmark',bg:'#E1F5EE'},
+  {id:'courses',label:'Courses',bg:'#E6F1FB'},
+  {id:'liveevents',label:'Live events',bg:'#FAECE7'},
+  {id:'reporting',label:'Reporting',bg:'#FBEAF0'},
+  {id:'connected',label:'Connected orgs',bg:'#FAF0C0'},
+  {id:'grcintegration',label:'GRC integration',bg:'#EAF3DE'},
+  {id:'other',label:'Other initiatives',bg:'#EAF3DE'},
+];
+
+let activeGroup='all';
+let activeInit='all';
+let activeCohort=0;
+
+const cohortLabels={1:'C1',2:'C2',3:'C3',4:'C4'};
+
+function buildInitButtons(){
+  const row=document.getElementById('init-row');
+  initiatives.forEach(init=>{
+    const btn=document.createElement('button');
+    btn.className='init-btn';
+    btn.dataset.id=init.id;
+    btn.innerHTML=`<span class="dot" style="background:${init.bg}"></span>${init.label}`;
+    btn.onclick=()=>filterInit(init.id,btn);
+    row.appendChild(btn);
+  });
+}
+
+function renderRows(){
+  const tbody=document.getElementById('roadmap-body');
+  tbody.innerHTML='';
+  let lastGroup='';
+  rows.forEach(row=>{
+    if(activeGroup!=='all'&&row.group!==activeGroup)return;
+    if(row.group!==lastGroup){
+      const gtr=document.createElement('tr');
+      gtr.className='group-label-row';
+      gtr.innerHTML=`<td colspan="8">${groupLabels[row.group]}</td>`;
+      tbody.appendChild(gtr);
+      lastGroup=row.group;
+    }
+    const rowHasInit=activeInit==='all'||row.cells.some(c=>c.i===activeInit);
+    const rowHasCohort=activeCohort===0||row.cells.some(c=>c.co===activeCohort);
+    const teamDimmed=(activeInit!=='all'&&!rowHasInit)||(activeCohort!==0&&!rowHasCohort);
+    const tr=document.createElement('tr');
+    let html=`<td class="team-cell${teamDimmed?' dimmed':''}">${row.name}</td>`;
+    row.cells.forEach(cell=>{
+      if(!cell.l){
+        html+=`<td class="bar-cell"><div class="empty-bar"></div></td>`;
+      } else {
+        const initMatch=activeInit==='all'||cell.i===activeInit;
+        const cohortMatch=activeCohort===0||cell.co===activeCohort;
+        const isMatch=initMatch&&cohortMatch;
+        const extraCls=(activeInit==='all'&&activeCohort===0)?'':isMatch?' highlighted':' dimmed';
+        const tipLabel=cell.co>0?`${cell.l} · Cohort ${cell.co}`:cell.l;
+        html+=`<td class="bar-cell"><div class="bar ${cell.c}${extraCls}" data-label="${tipLabel}">${cell.l}</div></td>`;
+      }
+    });
+    tr.innerHTML=html;
+    tbody.appendChild(tr);
+  });
+
+  // summary bar
+  const filters=[];
+  if(activeInit!=='all'){const init=initiatives.find(i=>i.id===activeInit);filters.push(`<strong>${init?init.label:activeInit}</strong>`);}
+  if(activeCohort!==0){filters.push(`<strong>Cohort ${activeCohort}</strong>`);}
+  if(filters.length){
+    const teamCount=rows.filter(r=>{
+      if(activeGroup!=='all'&&r.group!==activeGroup)return false;
+      return r.cells.some(c=>
+        (activeInit==='all'||c.i===activeInit)&&(activeCohort===0||c.co===activeCohort)&&c.l
+      );
+    }).length;
+    const info=document.createElement('tr');
+    info.className='count-info';
+    info.innerHTML=`<td colspan="8">${teamCount} team${teamCount!==1?'s':''} on ${filters.join(' · ')} &nbsp;·&nbsp; click active filter again to clear</td>`;
+    tbody.appendChild(info);
+  }
+}
+
+function filterGroup(f,btn){
+  activeGroup=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRows();
+}
+
+function filterInit(f,btn){
+  activeInit=activeInit===f&&f!=='all'?'all':f;
+  document.querySelectorAll('.init-btn').forEach(b=>b.classList.remove('active'));
+  if(activeInit==='all'){document.querySelector('.init-btn').classList.add('active');}
+  else{btn.classList.add('active');}
+  renderRows();
+}
+
+function filterCohort(c,btn){
+  activeCohort=activeCohort===c&&c!==0?0:c;
+  document.querySelectorAll('.cohort-btn').forEach(b=>b.classList.remove('active'));
+  if(activeCohort===0){document.querySelector('.cohort-btn').classList.add('active');}
+  else{btn.classList.add('active');}
+  renderRows();
+}
+
+const tip=document.getElementById('tip');
+document.addEventListener('mouseover',e=>{
+  const bar=e.target.closest('.bar');
+  if(bar&&bar.dataset.label){tip.textContent=bar.dataset.label;tip.style.display='block';}
+  else tip.style.display='none';
+});
+document.addEventListener('mousemove',e=>{
+  tip.style.left=(e.clientX+12)+'px';
+  tip.style.top=(e.clientY-28)+'px';
+});
+
+buildInitButtons();
+renderRows();
+</script>
+</div>
+</body>
+</html>
